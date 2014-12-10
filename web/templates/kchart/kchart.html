@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fundc数据中心</title>
+	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+	<link rel="shortcut icon" href="/static/favicon.ico" />
+	<link type='text/css' media='screen' href='/static/bootstrap/css/bootstrap.min.css' rel='stylesheet'>
+	<link type='text/css' media='screen' href='/static/bootstrap/css/bootstrap-responsive.min.css' rel='stylesheet'>
+    <script src='/static/jquery/jquery.min.js'></script>
+    <script src="/static/echarts/esl.js"></script>  
+</head>
+
+<body>
+	<div style='margin:2px'>
+	<ul class="nav nav-pills" role="tablist">
+	  <li role="presentation" class="active"><a href="/kchart">沪深股市</a></li>
+	  <li role="presentation"><a href="#">美股</a></li>
+	  <li role="presentation"><a href="#">港股</a></li>
+	  <li role="presentation"><a href="#">比特币</a></li>
+	</ul>
+	</div>
+
+	<div style='margin:2px'>
+	<form class="form-inline" role="form">
+	  <div class="form-group">
+	    <label class="sr-only" for="stockCode">股票代码</label>
+	    <input type="text" class="form-control" id="stockCode" name="stockCode" value="{{stockCode}}" placeholder="请输入股票代码">
+	  </div>
+	  <button type="submit" class="btn btn-default">查询</button>
+	</form>
+	</div>
+	
+    <div id="main"style="height:500px;border:1px solid #ccc;padding:10px;">Loading...</div>
+	<script type="text/javascript">
+		require.config({
+		        paths:{
+		            'echarts': '/static/echarts/echarts',
+		            'echarts/chart/k' : '/static/echarts/chart/k',
+		            'echarts/chart/line': '/static/echarts/chart/line',
+		        }
+		});
+  
+		require(
+	        [
+	            'echarts',
+	            'echarts/chart/k',
+	            'echarts/chart/line'
+	        ],
+	        function(ec) {
+option = {
+    title : {
+        text: '[{{stockCode}}] {{startdate}} ~ {{enddate}}'
+    },
+    tooltip : {
+        trigger: 'axis',
+        formatter: function (params) {
+            var res = params[0].seriesName + ' ' + params[0].name;
+            res += '<br/>  开盘 : ' + params[0].value[0] + '  最高 : ' + params[0].value[3];
+            res += '<br/>  收盘 : ' + params[0].value[1] + '  最低 : ' + params[0].value[2];
+            return res;
+        }
+    },
+    legend: {
+        data:['{{base_info.Name}}']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: false},
+            dataZoom : {show: true},
+            dataView : {show: true, readOnly: false},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    dataZoom : {
+        show : true,
+        realtime: true,
+        start : 0,
+        end : 100
+    },
+    xAxis : [
+        {
+            type : 'category',
+            boundaryGap : true,
+            axisTick: {onGap:false},
+            splitLine: {show:false},
+            data : {{xAxis|safe}}
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value',
+            scale: true,
+            boundaryGap: [0.01, 0.01]
+        }
+    ],
+    series : [
+        {
+            name:'{{stockCode}}',
+            type:'k',
+            barMaxWidth: 20,
+            itemStyle: {
+                normal: {
+                    color: 'red', 	// 阳线填充颜色
+                    color0: 'green', // 阴线填充颜色
+                    lineStyle: {
+                        width: 1,
+                        color: 'red',    // 阳线边框颜色
+                        color0: 'green'  // 阴线边框颜色
+                    }
+                },
+                emphasis: {
+                    color: 'pink',         // 阳线填充颜色
+                    color0: 'lightgreen'         // 阴线填充颜色
+                }
+            },
+            data:{{series|safe}},
+            markLine : {
+                itemStyle:{
+	                emphasis: {
+	                    color: 'pink',         // 阳线填充颜色
+	                    color0: 'lightgreen'         // 阴线填充颜色
+	                }
+                },
+                data : [
+			        [
+	                    {name : '最高价', value : {{max_y}}, xAxis: '{{min_x}}', yAxis: {{max_y}}},
+	                    {name : '最低价', value : {{max_y}}, xAxis: '{{max_x}}', yAxis: {{max_y}}},
+    				],
+			        [
+	                    {name : '最高价', value : {{min_y}}, xAxis: '{{min_x}}', yAxis: {{min_y}}},
+	                    {name : '最低价', value : {{min_y}}, xAxis: '{{max_x}}', yAxis: {{min_y}}},
+    				],
+                ]
+            },
+        }
+    ]
+};
+
+	            var myChart = ec.init(document.getElementById('main'));                           
+	            myChart.setOption(option);
+	        }
+    	);
+
+    </script>  
+</body>  
