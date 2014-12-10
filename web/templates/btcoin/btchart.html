@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Fundc数据中心</title>
+	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+
+	<link rel="shortcut icon" href="/static/favicon.ico" />
+	<link type='text/css' media='screen' href='/static/bootstrap/css/bootstrap.min.css' rel='stylesheet'>
+	<link type='text/css' media='screen' href='/static/bootstrap/css/bootstrap-responsive.min.css' rel='stylesheet'>
+    <script src='/static/jquery/jquery.min.js'></script>
+    <script src="/static/echarts/esl.js"></script>  
+</head>
+
+<body>
+	<div style='margin:2px'>
+	<ul class="nav nav-pills" role="tablist">
+	  <li role="presentation"><a href="/kchart">沪深股市</a></li>
+	  <li role="presentation"><a href="#">美股</a></li>
+	  <li role="presentation"><a href="#">港股</a></li>
+	  <li role="presentation" class="active"><a href="#">比特币</a></li>
+	</ul>
+	</div>
+	
+    <div id="main"style="height:500px;border:1px solid #ccc;padding:10px;">Loading...</div>
+	<script type="text/javascript">
+		function makeOption() {
+option = {
+    title : {
+        text: '一天内比特币价格趋势'
+    },
+    tooltip : {
+        trigger: 'axis'
+    },
+    legend: {
+        data:['价格']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: false},
+            dataZoom : {show: true},
+            dataView : {show: true, readOnly: false},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'category',
+            boundaryGap : false,
+            data : {{xAxis|safe}}
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value',
+            scale: true,
+            axisLabel : {
+                formatter: '{value}元'
+            }
+        }
+    ],
+    series : [
+        {
+            name:'最高气温',
+            type:'line',
+            data:{{series|safe}},
+            itemStyle: {
+                normal: {
+                    color: 'red'
+                }
+            },
+            markPoint : {
+                data : [
+                    {type : 'max', name: '最高价'},
+                    {type : 'min', name: '最低价'}
+                ]
+            },
+            markLine : {
+                data : [
+                    {type : 'average', name: '均价'}
+                ],
+	            itemStyle: {
+	                normal: {
+	                    color: 'blue'
+	                }
+	            }
+            }
+        }
+    ]
+};
+        	return option;
+		}
+	
+		require.config({
+		        paths:{
+		            'echarts': '/static/echarts/echarts',
+		            'echarts/chart/line': '/static/echarts/chart/line',
+		        }
+		});
+  
+		require(
+	        [
+	            'echarts',
+	            'echarts/chart/line'
+	        ],
+	        function(ec) {
+				option = makeOption();
+	            var myChart = ec.init(document.getElementById('main'));                           
+	            myChart.setOption(option);
+	        }
+    	);
+
+    </script>  
+</body>  

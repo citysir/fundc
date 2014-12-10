@@ -18,6 +18,8 @@ urlpatterns = patterns(
     (r'^admin/', include(admin.site.urls)),
 
     (r'^kchart/', 'fundc.web.kchart.views.kchart'),
+    (r'^btchart/', 'fundc.web.btcoin.views.btchart'),
+    
     (r'^$', 'fundc.web.main.views.index'),
 )
 

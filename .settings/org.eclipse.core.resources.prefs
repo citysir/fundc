@@ -13,6 +13,7 @@ encoding//models/router.py=utf8
 encoding//models/stock.py=utf8
 encoding//util/sinapricegetter.py=utf-8
 encoding//util/yahoopricegetter.py=utf-8
+encoding//web/btcoin/views.py=utf8
 encoding//web/kchart/views.py=utf8
 encoding//web/main/views.py=utf8
 encoding/config.py=utf-8
