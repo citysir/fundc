@@ -4,7 +4,7 @@ import time
 import datetime
 
 from fundc import config, constant
-from fundc.util import yahoopricegetter
+from fundc.common import yahoopricegetter
 from django.db import transaction
 from fundc.models.stock import StockBaseInfo, UsStockDailyPrice
 

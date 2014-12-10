@@ -4,19 +4,24 @@ import time
 import datetime
 
 from fundc import config
-from fundc.common.okcoin import OKCoin
+from fundc.common.okcoin.OkcoinSpotAPI import OKCoinSpot
 from fundc.models.btcoin import CnBtCoinMinutelyPrice
 
 def run():
-    api_key = '250e4df5-a023-4017-82c5-676625e2b54b'
-    secret_key = 'FE7B5462F294969CAF05FC2007F1539C'
-    api = OKCoin(api_key, secret_key)
+    apikey = '250e4df5-a023-4017-82c5-676625e2b54b'
+    secretkey = 'FE7B5462F294969CAF05FC2007F1539C'
+    okcoinRESTURL = 'www.okcoin.com'   #请求注意：国际账号需要 修改为 www.okcoin.com  国内站账号需要修改为www.okcoin.cn
     
-    now = datetime.datetime.now()
-    price_time = datetime.datetime(now.year, now.month, now.day, now.hour, now.minute, 0)
-    ticker = api.get_ticker_try('btc_cny', 3)
+    #现货API
+    okcoinSpot = OKCoinSpot(okcoinRESTURL, apikey, secretkey)
+    
+    data = okcoinSpot.ticker('btc_cny')
+    ticker = data['ticker']
+    
+    record_time = datetime.datetime.fromtimestamp(int(data['date']))
+    price_time = datetime.datetime(record_time.year, record_time.month, record_time.day, record_time.hour, record_time.minute, 0)
 
-    CnBtCoinMinutelyPrice(Price=ticker['last'], PriceTime=price_time, RecordTime=now).save()
+    CnBtCoinMinutelyPrice(Price=ticker['last'], PriceTime=price_time, RecordTime=record_time).save()
     
 
 if __name__ == '__main__':
