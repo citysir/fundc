@@ -33,21 +33,7 @@
 	
     <div id="main"style="height:500px;border:1px solid #ccc;padding:10px;">Loading...</div>
 	<script type="text/javascript">
-		require.config({
-		        paths:{
-		            'echarts': '/static/echarts/echarts',
-		            'echarts/chart/k' : '/static/echarts/chart/k',
-		            'echarts/chart/line': '/static/echarts/chart/line',
-		        }
-		});
-  
-		require(
-	        [
-	            'echarts',
-	            'echarts/chart/k',
-	            'echarts/chart/line'
-	        ],
-	        function(ec) {
+		function makeOption() {
 option = {
     title : {
         text: '[{{stockCode}}] {{startdate}} ~ {{enddate}}'
@@ -139,6 +125,25 @@ option = {
     ]
 };
 
+			return option;
+		}
+	
+		require.config({
+		        paths:{
+		            'echarts': '/static/echarts/echarts',
+		            'echarts/chart/k' : '/static/echarts/chart/k',
+		            'echarts/chart/line': '/static/echarts/chart/line',
+		        }
+		});
+  
+		require(
+	        [
+	            'echarts',
+	            'echarts/chart/k',
+	            'echarts/chart/line'
+	        ],
+	        function(ec) {
+				option = makeOption();
 	            var myChart = ec.init(document.getElementById('main'));                           
 	            myChart.setOption(option);
 	        }

@@ -7,7 +7,7 @@ sys.path.append(os.path.dirname(__file__))
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'fundc.settings'
 
-DEBUG = True
+DEBUG = False
 
 class Path:
     PROJECT = os.path.dirname(__file__)
