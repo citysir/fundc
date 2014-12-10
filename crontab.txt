@@ -1,0 +1,10 @@
+0 23 * * * python /data/apps/fundc/jobs/cnstockdailypriceupdater.py
+30 23 * * * python /data/apps/fundc/jobs/usstockdailypriceupdater.py
+
+0 2 * * * python /data/apps/fundc/jobs/cnstockrelativity.py
+30 2 * * * python /data/apps/fundc/jobs/usstockrelativity.py
+
+0 3 * * * python /data/apps/fundc/jobs/cnstockcodeupdater.py
+30 3 * * * python /data/apps/fundc/jobs/usstockcodeupdater.py
+
+*/1 * * * * python /data/apps/fundc/jobs/okcoinminutelypriceupdater.py

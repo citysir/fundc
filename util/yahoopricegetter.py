@@ -40,7 +40,6 @@ g — 时间周期。
               'Referer':'http://finance.yahoo.com/',
               }
     url = 'http://table.finance.yahoo.com/table.csv?s=%s&d=%s&e=%s&f=%s&g=d&a=%s&b=%s&c=%s&ignore=.csv' % (s, d, e, f, a, b, c)
-    print url
     request = urllib2.Request(url, None, header)
     response = urllib2.urlopen(request, None, 15)
     text = StringIO(response.read())

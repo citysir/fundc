@@ -66,7 +66,7 @@ MEDIA_URL = ''
 ADMIN_MEDIA_PREFIX = '/admin-media/'
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'cloud_behavior68e1bi(8r3bvui*%%10au++%$#ace0*eh-t7^-k1t33lpt'
+SECRET_KEY = 'fundc68e1bi(8r3bvui*%%10au++%$#ace0*eh-t7^-k1t33lpt'
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.load_template_source',
@@ -77,7 +77,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'cloud_behavior.auth.middleware.ThreadLocalsware',
 )
 
 AUTHENTICATION_BACKENDS = (

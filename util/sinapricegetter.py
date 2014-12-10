@@ -28,19 +28,37 @@ http://money.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/000100.ph
               'Connection':'close',
               'Referer':'http://finance.yahoo.com/',
               }
-#     url = 'http://money.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/%s.phtml?year=2014&jidu=4' % s
-    url = 'http://money.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/%s.phtml' % s
-    print url
-    request = urllib2.Request(url, None, header)
-    response = urllib2.urlopen(request, None, 15)
-    text = response.read()
-    
+    year_jidu_items = _parse_year_jidu_items(startdate, enddate)
     results = {}
-    soup = BeautifulSoup(text)
-    for e in soup.findAll('a', {'href': RE, 'target': '_blank'}):
-        tr = e.parent.parent.parent
-        results.update(_parse_tr(tr))
+    for year, jidu in year_jidu_items:
+        url = 'http://money.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/%s.phtml?year=%d&jidu=%d' % (s, year, jidu)
+        request = urllib2.Request(url, None, header)
+        response = urllib2.urlopen(request, None, 15)
+        text = response.read()
+        
+        soup = BeautifulSoup(text)
+        for e in soup.findAll('a', {'href': RE, 'target': '_blank'}):
+            tr = e.parent.parent.parent
+            results.update(_parse_tr(tr))
     return results
+
+def _parse_year_jidu_items(startdate, enddate):
+    year_jidu_items = set()
+    date = startdate
+    while date <= enddate:
+        year_jidu_items.add((date.year, _get_jidu(date.month)))
+        date += datetime.timedelta(days=1)
+    return year_jidu_items
+
+def _get_jidu(month):
+    if month in (1, 2, 3):
+        return 1
+    elif month in (4, 5, 6):
+        return 2
+    elif month in (7, 8, 9):
+        return 3
+    else:
+        return 4
 
 def _parse_tr(tr):
     '''
