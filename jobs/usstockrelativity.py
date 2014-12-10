@@ -1,5 +1,6 @@
 #coding:utf-8
 
+import os
 import datetime
 
 import numpy
@@ -85,5 +86,4 @@ def output(output_path, base_infos, codes, datas, clusterAssment):
 
 
 if __name__ == '__main__':
-    run("d://temp/usstockrelativity.txt")
-#     update("000100")
+    run(os.path.join(config.Path.TEMP, "usstockrelativity.txt"))
