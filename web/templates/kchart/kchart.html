@@ -14,7 +14,7 @@
 <body>
 	<div style='margin:2px'>
 	<ul class="nav nav-pills" role="tablist">
-	  <li role="presentation" class="active"><a href="#">沪深股市</a></li>
+	  <li role="presentation" class="active"><a href="/kchart">沪深股市</a></li>
 	  <li role="presentation"><a href="#">美股</a></li>
 	  <li role="presentation"><a href="#">港股</a></li>
 	  <li role="presentation"><a href="/btchart/">比特币</a></li>
@@ -36,7 +36,7 @@
 		function makeOption() {
 option = {
     title : {
-        text: '[{{stockCode}}] {{startdate}} ~ {{enddate}}'
+        text: '{{startdate}} ~ {{enddate}}'
     },
     tooltip : {
         trigger: 'axis',
@@ -48,14 +48,14 @@ option = {
         }
     },
     legend: {
-        data:['{{base_info.Name}}']
+        data:[' [{{stockCode}}] {{base_info.Name}} ']
     },
     toolbox: {
         show : true,
         feature : {
             mark : {show: false},
             dataZoom : {show: true},
-            dataView : {show: true, readOnly: false},
+            dataView : {show: true, readOnly: true},
             restore : {show: true},
             saveAsImage : {show: true}
         }
@@ -84,7 +84,7 @@ option = {
     ],
     series : [
         {
-            name:'{{stockCode}}',
+            name:'[{{stockCode}}]',
             type:'k',
             barMaxWidth: 20,
             itemStyle: {

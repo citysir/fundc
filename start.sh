@@ -2,10 +2,10 @@
 
 SOCK=/tmp/fundc.sock
 
-echo 'kill nginx process, wait 5 seconds...'
+echo 'kill nginx process, wait 2 seconds...'
 nginx -s quit -c /data/apps/fundc/nginx.conf
 
-sleep 5
+sleep 2
 
 echo 'kill fundc python process...'
 ps -ef | grep fundc/manage.py | grep -v grep | awk '{print $2}' | xargs kill

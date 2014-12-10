@@ -14,7 +14,7 @@ def run():
     
     now = datetime.datetime.now()
     price_time = datetime.datetime(now.year, now.month, now.day, now.hour, now.minute, 0)
-    ticker = api.get_ticker('btc_cny')
+    ticker = api.get_ticker_try('btc_cny', 3)
 
     CnBtCoinMinutelyPrice(Price=ticker['last'], PriceTime=price_time, RecordTime=now).save()
     

@@ -17,8 +17,14 @@
 	  <li role="presentation"><a href="/kchart">沪深股市</a></li>
 	  <li role="presentation"><a href="#">美股</a></li>
 	  <li role="presentation"><a href="#">港股</a></li>
-	  <li role="presentation" class="active"><a href="#">比特币</a></li>
+	  <li role="presentation" class="active"><a href="/btchart">比特币</a></li>
 	</ul>
+	</div>
+	
+	<div style='margin:2px'>
+	&nbsp;&nbsp;<a href="/btchart/?days=1">1天走势</a>
+	&nbsp;&nbsp;<a href="/btchart/?days=3">3天走势</a>
+	&nbsp;&nbsp;<a href="/btchart/?days=7">7天走势</a>
 	</div>
 	
     <div id="main"style="height:500px;border:1px solid #ccc;padding:10px;">Loading...</div>
@@ -26,7 +32,7 @@
 		function makeOption() {
 option = {
     title : {
-        text: '一天内比特币价格趋势'
+        text: '{{days}}天内比特币价格走势'
     },
     tooltip : {
         trigger: 'axis'
@@ -39,7 +45,7 @@ option = {
         feature : {
             mark : {show: false},
             dataZoom : {show: true},
-            dataView : {show: true, readOnly: false},
+            dataView : {show: true, readOnly: true},
             restore : {show: true},
             saveAsImage : {show: true}
         }
@@ -63,7 +69,7 @@ option = {
     ],
     series : [
         {
-            name:'最高气温',
+            name:'价格',
             type:'line',
             data:{{series|safe}},
             itemStyle: {
@@ -71,15 +77,11 @@ option = {
                     color: 'red'
                 }
             },
-            markPoint : {
-                data : [
-                    {type : 'max', name: '最高价'},
-                    {type : 'min', name: '最低价'}
-                ]
-            },
             markLine : {
                 data : [
-                    {type : 'average', name: '均价'}
+                    {type : 'average', name: '均价'},
+                    {type : 'max', name: '最高价'},
+                    {type : 'min', name: '最低价'}
                 ],
 	            itemStyle: {
 	                normal: {

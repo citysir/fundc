@@ -1,5 +1,6 @@
 #coding:utf-8
 
+import time
 import httplib
 import urllib
 import json
@@ -61,6 +62,15 @@ class OKCoin():
         else:
             raise Exception("Error when get ticker")
 
+    def get_ticker_try(self, symbol, times=1):
+        while times > 0:
+            try:
+                return self.get_ticker(symbol)
+            except Exception, e:
+                print e
+                times -= 1
+                time.sleep(0.5)
+
     def get_depth(self, symbol):
         return self.__api_call("depth", symbol=symbol)
     
@@ -105,6 +115,3 @@ if __name__ == '__main__':
     api = OKCoin(api_key, secret_key)
     
     ticker = api.get_ticker('btc_cny')
-    
-    
-    {'sell': u'2139.15', 'vol': u'146549.30850001', 'buy': u'2138.89', 'last': u'2138.89'}
