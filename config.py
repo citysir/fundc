@@ -23,17 +23,17 @@ class Path:
     TEMP = os.path.join(DATA, 'temp')
 
 class DjangoDatabase:
-    HOST = 'localhost'
+    HOST = 'fundc12345678.mysql.rds.aliyuncs.com'
     NAME = 'django'
-    USER = 'root'
-    PASSWORD = 'zhouzhenhua'
+    USER = 'myadmin'
+    PASSWORD = 'myadmin3335688'
     PORT = 3306
     ROUTERNAME = 'django'
 
 class FundcDatabase:
-    HOST = 'localhost'
+    HOST = 'fundc12345678.mysql.rds.aliyuncs.com'
     NAME = 'fundc'
-    USER = 'root'
-    PASSWORD = 'zhouzhenhua'
+    USER = 'myadmin'
+    PASSWORD = 'myadmin3335688'
     PORT = 3306
     ROUTERNAME = 'fundc'
