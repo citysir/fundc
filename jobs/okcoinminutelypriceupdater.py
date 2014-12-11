@@ -19,10 +19,10 @@ def run():
     now = datetime.datetime.now()
     end_time = datetime.datetime(now.year, now.month, now.day, now.hour, now.minute, 0)
     
-    minutes = 60 
+    minutes = 30 
     since = time.mktime((end_time - datetime.timedelta(minutes=minutes)).timetuple())
     
-    prices = okcoinSpot.kline(symbol = 'btc_cny', type = '1min', size = minutes, since = since * 1000)
+    prices = try_kline(okcoinSpot, 'btc_cny', '1min', minutes, since * 1000)
 
     for price in prices:
         price_time = datetime.datetime.fromtimestamp(price[0] / 1000)
@@ -33,7 +33,15 @@ def run():
         volumn = price[5]
         if not CnBtCoinMinutelyPrice.objects.filter(PriceTime=price_time).exists():
             CnBtCoinMinutelyPrice(Price=close, Volumn=volumn, PriceTime=price_time, RecordTime=now).save()
-
+            
+def try_kline(okcoinSpot, symbol, type, size, since, times=5):
+    while times > 0:
+        try:
+            return okcoinSpot.kline(symbol=symbol, type=type, size=size, since=since)
+        except Exception, e:
+            print e
+            times -= 1
+            time.sleep(1)
 
 if __name__ == '__main__':
     run()
