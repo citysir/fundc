@@ -8,7 +8,7 @@
 	<link type='text/css' media='screen' href='/static/bootstrap/css/bootstrap.min.css' rel='stylesheet'>
 	<link type='text/css' media='screen' href='/static/bootstrap/css/bootstrap-responsive.min.css' rel='stylesheet'>
     <script src='/static/jquery/jquery.min.js'></script>
-    <script src="/static/echarts/esl.js"></script>  
+    <script src="/static/echarts/esl.js"></script>
 </head>
 
 <body>
@@ -20,19 +20,23 @@
 	  <li role="presentation" class="active"><a href="/btchart">比特币</a></li>
 	</ul>
 	</div>
-	
-	<div style='margin:2px'>
-	&nbsp;&nbsp;<a href="/btchart/?days=1">1天走势</a>
-	&nbsp;&nbsp;<a href="/btchart/?days=3">3天走势</a>
-	&nbsp;&nbsp;<a href="/btchart/?days=7">7天走势</a>
+
+	<div style='margin:2px'>&nbsp;
+	&nbsp;&nbsp;<a href="javascript:reload(1)">1小时走势</a>
+	&nbsp;&nbsp;<a href="javascript:reload(6)">6小时走势</a>
+	&nbsp;&nbsp;<a href="javascript:reload(12)">12小时走势</a>
+	&nbsp;&nbsp;<a href="javascript:reload(24)">1天走势</a>
+	&nbsp;&nbsp;<a href="javascript:reload(72)">3天走势</a>
+	&nbsp;&nbsp;<a href="javascript:reload(168)">7天走势</a>
+	&nbsp;&nbsp; <input type="checkbox" id="refresh" name="refresh" value="1">自动刷新
 	</div>
-	
+
     <div id="main"style="height:500px;border:1px solid #ccc;padding:10px;">Loading...</div>
 	<script type="text/javascript">
 		function makeOption() {
 option = {
     title : {
-        text: '{{days}}天内比特币价格走势'
+        text: '{{hours_desc}}内比特币价格走势'
     },
     tooltip : {
         trigger: 'axis'
@@ -113,6 +117,38 @@ option = {
 	            myChart.setOption(option);
 	        }
     	);
+
+		$(function() {
+			{%if refresh%}
+			autoReload();
+			{%endif%}
+
+			$("#refresh").click(function(){
+				refreshClick();
+			});
+		});
+
+		function autoReload() {
+			var timeout="60000";
+			timeoutHandler = setTimeout("reload({{hours}})", timeout);
+			$("#refresh").attr('checked', true);
+		}
+
+		function reload(hours) {
+			if($("#refresh").attr('checked')) {
+				window.location="/btchart/?h=" + hours + "&r=1";
+			} else {
+				window.location="/btchart/?h=" + hours + "&r=0";
+			}
+		}
+
+		function refreshClick() {
+			if($("#refresh").attr('checked')) {
+				window.location="/btchart/?h={{hours}}&r=0";
+			} else {
+				window.location="/btchart/?h={{hours}}&r=1";
+			}
+		}
 
     </script>  
 </body>  

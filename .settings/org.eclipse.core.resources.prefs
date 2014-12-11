@@ -1,6 +1,5 @@
 eclipse.preferences.version=1
 encoding//common/kmeans.py=utf-8
-encoding//common/okcoin.py=utf-8
 encoding//common/okcoin/Client.py=utf-8
 encoding//common/okcoin/OkcoinFutureAPI.py=utf-8
 encoding//common/okcoin/OkcoinSpotAPI.py=utf-8
