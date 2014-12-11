@@ -33,7 +33,7 @@ def kchart(request):
     xAxis = [] #["2013/1/24", "2013/1/25", "2013/1/28", "2013/1/29", "2013/1/30"]
     series = [] # 开盘，收盘，最低，最高 [ [2320.26,2302.6,2287.3,2362.94], [2300,2291.3,2288.26,2308.38] ]
     for price in prices:
-        datestr = price.Date.strftime("%Y/%m/%d")
+        datestr = price.Date.strftime("%Y-%m-%d")
         xAxis.append(datestr)
         series.append((price.Open, price.Close, price.Low, price.High))
         if price.High > max_y:

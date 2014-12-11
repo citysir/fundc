@@ -77,25 +77,41 @@ option = {
     series : [
         {
             name:'价格',
-            type:'line',
-            data:{{series|safe}},
+            type:'k',
+            barMaxWidth: 20,
             itemStyle: {
                 normal: {
-                    color: 'red'
+                    color: 'red', 	// 阳线填充颜色
+                    color0: 'green', // 阴线填充颜色
+                    lineStyle: {
+                        width: 1,
+                        color: 'red',    // 阳线边框颜色
+                        color0: 'green'  // 阴线边框颜色
+                    }
+                },
+                emphasis: {
+                    color: 'pink',         // 阳线填充颜色
+                    color0: 'lightgreen'   // 阴线填充颜色
                 }
             },
+            data:{{series|safe}},
             markLine : {
                 data : [
-                    {type : 'average', name: '均价'},
-                    {type : 'max', name: '最高价'},
-                    {type : 'min', name: '最低价'}
+			        [
+	                    {name : '最高价', value : {{max_y}}, xAxis: '{{min_x}}', yAxis: {{max_y}}},
+	                    {name : '最低价', value : {{max_y}}, xAxis: '{{max_x}}', yAxis: {{max_y}}},
+    				],
+			        [
+	                    {name : '最高价', value : {{min_y}}, xAxis: '{{min_x}}', yAxis: {{min_y}}},
+	                    {name : '最低价', value : {{min_y}}, xAxis: '{{max_x}}', yAxis: {{min_y}}},
+    				],
                 ],
 	            itemStyle: {
 	                normal: {
 	                    color: 'blue'
 	                }
 	            }
-            }
+            },
         }
     ]
 };
@@ -147,6 +163,7 @@ option = {
 		require.config({
 		        paths:{
 		            'echarts': '/static/echarts/echarts',
+		            'echarts/chart/k' : '/static/echarts/chart/k',
 		            'echarts/chart/line': '/static/echarts/chart/line',
 		            'echarts/chart/bar': '/static/echarts/chart/bar',
 		        }
@@ -155,6 +172,7 @@ option = {
 		require(
 	        [
 	            'echarts',
+	            'echarts/chart/k',
 	            'echarts/chart/line',
 	            'echarts/chart/bar'
 	        ],

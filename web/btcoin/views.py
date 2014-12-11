@@ -1,5 +1,6 @@
 #coding=utf8
 
+import sys
 import json
 
 from django.shortcuts import render_to_response
@@ -12,19 +13,29 @@ def btchart(request):
 
     hours = int(hours) if hours else 24  
     limit = 60 * hours
-    prices = list(CnBtCoinMinutelyPrice.objects.all().order_by('-id')[:limit])
+    prices = list(CnBtCoinMinutelyPrice.objects.all().order_by('-PriceTime')[:limit])
     prices.reverse()
 
     hours_desc = _get_hours_desc(hours)
+    
+    if prices:
+        min_x = prices[0].PriceTime.strftime("%Y-%m-%d %H:%M")
+        max_x = prices[-1].PriceTime.strftime("%Y-%m-%d %H:%M")
+    min_y = sys.maxint
+    max_y = 0
      
-    xAxis = [] #["1", "2", "3", "4", "5", ...]
-    series = [] #  [ 2312, 2313, ... ]
+    xAxis = [] #["10-1", "10-2", "10-3", "10-4", "10-5", ...]
+    series = [] # 开盘，收盘，最低，最高 [ [2320.26,2302.6,2287.3,2362.94], [2300,2291.3,2288.26,2308.38] ]
     volumns = []
     for price in prices:
-        minute = price.PriceTime.strftime("%H-%M")
+        minute = price.PriceTime.strftime("%Y-%m-%d %H:%M")
         xAxis.append(minute)
-        series.append(price.Price)
+        series.append((price.Open, price.Close, price.Low, price.High))
         volumns.append(price.Volumn)
+        if price.High > max_y:
+            max_y = price.High
+        if price.Low < min_y:
+            min_y = price.Low
 
     xAxis = json.dumps(xAxis)
     series = json.dumps(series)

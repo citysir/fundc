@@ -32,7 +32,7 @@ def run():
         close = price[4]
         volumn = price[5]
         if not CnBtCoinMinutelyPrice.objects.filter(PriceTime=price_time).exists():
-            CnBtCoinMinutelyPrice(Price=close, Volumn=volumn, PriceTime=price_time, RecordTime=now).save()
+            CnBtCoinMinutelyPrice(Open=open, Close=close, High=high, Low=low, Volumn=volumn, PriceTime=price_time, RecordTime=now).save()
             
 def try_kline(okcoinSpot, symbol, type, size, since, times=5):
     while times > 0:
