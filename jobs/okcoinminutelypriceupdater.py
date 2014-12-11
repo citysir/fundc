@@ -1,6 +1,8 @@
 #coding:utf-8
 
+import time
 import datetime
+import json
 
 from fundc import config
 from fundc.common.okcoin.OkcoinSpotAPI import OKCoinSpot
@@ -14,15 +16,24 @@ def run():
     #现货API
     okcoinSpot = OKCoinSpot(okcoinRESTURL, apikey, secretkey)
     
-    data = okcoinSpot.ticker('btc_cny')
+    now = datetime.datetime.now()
+    end_time = datetime.datetime(now.year, now.month, now.day, now.hour, now.minute, 0)
     
-    ticker = data['ticker']
+    minutes = 60 
+    since = time.mktime((end_time - datetime.timedelta(minutes=minutes)).timetuple())
     
-    record_time = datetime.datetime.fromtimestamp(int(data['date']))
-    price_time = datetime.datetime(record_time.year, record_time.month, record_time.day, record_time.hour, record_time.minute, 0)
+    prices = okcoinSpot.kline(symbol = 'btc_cny', type = '1min', size = minutes, since = since * 1000)
 
-    CnBtCoinMinutelyPrice(Price=ticker['last'], Volumn=ticker['vol'], PriceTime=price_time, RecordTime=record_time).save()
-    
+    for price in prices:
+        price_time = datetime.datetime.fromtimestamp(price[0] / 1000)
+        open = price[1]
+        high = price[2]
+        low = price[3]
+        close = price[4]
+        volumn = price[5]
+        if not CnBtCoinMinutelyPrice.objects.filter(PriceTime=price_time).exists():
+            CnBtCoinMinutelyPrice(Price=close, Volumn=volumn, PriceTime=price_time, RecordTime=now).save()
+
 
 if __name__ == '__main__':
     run()

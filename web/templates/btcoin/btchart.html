@@ -23,6 +23,7 @@
 
 	<div style='margin:2px'>&nbsp;
 	&nbsp;&nbsp;<a href="javascript:reload(1)">1小时走势</a>
+	&nbsp;&nbsp;<a href="javascript:reload(3)">3小时走势</a>
 	&nbsp;&nbsp;<a href="javascript:reload(6)">6小时走势</a>
 	&nbsp;&nbsp;<a href="javascript:reload(12)">12小时走势</a>
 	&nbsp;&nbsp;<a href="javascript:reload(24)">1天走势</a>
@@ -31,9 +32,11 @@
 	&nbsp;&nbsp; <input type="checkbox" id="refresh" name="refresh" value="1">自动刷新
 	</div>
 
-    <div id="main"style="height:500px;border:1px solid #ccc;padding:10px;">Loading...</div>
+    <div id="line" style="height:400px;border:1px solid #ccc;padding:10px 0px 0px 0px;">Loading...</div>
+    <div id="bar" style="height:160px;"></div>
+ 
 	<script type="text/javascript">
-		function makeOption() {
+		function makeLineOption() {
 option = {
     title : {
         text: '{{hours_desc}}内比特币价格走势'
@@ -98,22 +101,69 @@ option = {
 };
         	return option;
 		}
-	
+
+		function makeBarOption() {
+option = {
+    title : {
+        text: ''
+    },
+    tooltip : {
+        trigger: 'axis'
+    },
+    legend: {
+        data:[]
+    },
+    toolbox: {
+        show : false
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'category',
+            boundaryGap : false,
+            data : {{xAxis|safe}}
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value',
+            scale: true,
+            axisLabel : {
+                formatter: '{value}'
+            }
+        }
+    ],
+    series : [
+        {
+            name:'成交量',
+            type:'bar',
+            data:{{volumns|safe}}
+        }
+    ]
+};
+        	return option;
+		}
+
 		require.config({
 		        paths:{
 		            'echarts': '/static/echarts/echarts',
 		            'echarts/chart/line': '/static/echarts/chart/line',
+		            'echarts/chart/bar': '/static/echarts/chart/bar',
 		        }
 		});
   
 		require(
 	        [
 	            'echarts',
-	            'echarts/chart/line'
+	            'echarts/chart/line',
+	            'echarts/chart/bar'
 	        ],
 	        function(ec) {
-				option = makeOption();
-	            var myChart = ec.init(document.getElementById('main'));                           
+				option = makeLineOption();
+	            myChart = ec.init(document.getElementById('line'));                           
+	            myChart.setOption(option);
+				option = makeBarOption();
+	            myChart = ec.init(document.getElementById('bar'));                           
 	            myChart.setOption(option);
 	        }
     	);

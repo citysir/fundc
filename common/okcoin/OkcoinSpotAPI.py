@@ -34,6 +34,23 @@ class OKCoinSpot:
             params = 'symbol=%(symbol)s' %{'symbol':symbol}
         return httpGet(self.__url,TRADES_RESOURCE,params)
     
+    #获取比特币或莱特币的K线数据
+    def kline(self, symbol = 'btc_cny', type = '1min', size = 60, since = 1417536000000):
+        '''
+返回值说明
+[
+    1417536000000,    时间戳
+    2370.16,    开
+    2380,        高
+    2352,        低
+    2367.37,    收
+    17259.83    交易量
+]
+        '''
+        TRADES_RESOURCE = "/api/v1/kline.do"
+        params = 'symbol=%s&type=%s&size=%d&since=%d&' % (symbol, type, size, since)
+        return httpGet(self.__url,TRADES_RESOURCE,params)
+
     #获取用户现货账户信息
     def userinfo(self):
         USERINFO_RESOURCE = "/api/v1/userinfo.do"
@@ -80,52 +97,37 @@ class OKCoinSpot:
 
     #现货订单信息查询
     def orderinfo(self,symbol,orderId):
-         ORDER_INFO_RESOURCE = "/api/v1/order_info.do"
-         params = {
+        ORDER_INFO_RESOURCE = "/api/v1/order_info.do"
+        params = {
              'api_key':self.__apikey,
              'symbol':symbol,
              'order_id':orderId
-         }
-         params['sign'] = buildMySign(params,self.__secretkey)
-         return httpPost(self.__url,ORDER_INFO_RESOURCE,params)
+        }
+        params['sign'] = buildMySign(params,self.__secretkey)
+        return httpPost(self.__url,ORDER_INFO_RESOURCE,params)
 
     #现货批量订单信息查询
     def ordersinfo(self,symbol,orderId,tradeType):
-         ORDERS_INFO_RESOURCE = "/api/v1/orders_info.do"
-         params = {
+        ORDERS_INFO_RESOURCE = "/api/v1/orders_info.do"
+        params = {
              'api_key':self.__apikey,
              'symbol':symbol,
              'order_id':orderId,
              'type':tradeType
-         }
-         params['sign'] = buildMySign(params,self.__secretkey)
-         return httpPost(self.__url,ORDERS_INFO_RESOURCE,params)
+        }
+        params['sign'] = buildMySign(params,self.__secretkey)
+        return httpPost(self.__url,ORDERS_INFO_RESOURCE,params)
 
     #现货获得历史订单信息
     def orderHistory(self,symbol,status,currentPage,pageLength):
-           ORDER_HISTORY_RESOURCE = "/api/v1/order_history.do"
-           params = {
+        ORDER_HISTORY_RESOURCE = "/api/v1/order_history.do"
+        params = {
               'api_key':self.__apikey,
               'symbol':symbol,
               'status':status,
               'current_page':currentPage,
               'page_length':pageLength
-           }
-           params['sign'] = buildMySign(params,self.__secretkey)
-           return httpPost(self.__url,ORDER_HISTORY_RESOURCE,params)
+        }
+        params['sign'] = buildMySign(params,self.__secretkey)
+        return httpPost(self.__url,ORDER_HISTORY_RESOURCE,params)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    

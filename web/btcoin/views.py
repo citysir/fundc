@@ -19,10 +19,12 @@ def btchart(request):
      
     xAxis = [] #["1", "2", "3", "4", "5", ...]
     series = [] #  [ 2312, 2313, ... ]
+    volumns = []
     for price in prices:
         minute = price.PriceTime.strftime("%H-%M")
         xAxis.append(minute)
         series.append(price.Price)
+        volumns.append(price.Volumn)
 
     xAxis = json.dumps(xAxis)
     series = json.dumps(series)
@@ -33,6 +35,8 @@ def btchart(request):
 def _get_hours_desc(hours):
     if hours == 1:
         return '1小时内'
+    elif hours == 3:
+        return '3小时内'
     elif hours == 6:
         return '6小时内'
     elif hours == 12:
