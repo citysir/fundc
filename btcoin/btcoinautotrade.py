@@ -33,7 +33,7 @@ def run():
     while True:
         time.sleep(5)
         
-        data = okcoinSpot.depth(size=20)
+        data = okcoinSpot.depth(size=10)
         bids = data['bids']
         asks = data['asks']
         
@@ -41,6 +41,14 @@ def run():
             'bids': bids,
             'asks': asks,
         }
+        
+        print '--', datetime.datetime.now(), '--------------'
+        print 'asks:'
+        for ask in asks[:10]:
+            print '%2f\t%.3f' % (ask[0], ask[1])
+        print 'bids:'
+        for bid in bids[:10]:
+            print '%2f\t%.3f' % (bid[0], bid[1])
 
         rule.set_context(context)
 
@@ -50,13 +58,15 @@ def run():
         btc_amount = get_btc_amount(userinfo)
         if rule.will_buy():
             if btc_amount == 0:
-                btc_amount = rule.get_max_amount() / asks[0]
-                okcoinSpot.trade('btc_cny', 'buy', asks[0], btc_amount)
-                CnBtCoinTransaction(Price=asks[0], Amount=btc_amount, TradeType='buy', TradeTime=datetime.datetime.now()).save()
+                print 'now buy'
+                btc_amount = rule.get_max_cny_amount() / asks[-1][0]
+                okcoinSpot.trade('btc_cny', 'buy', asks[-1][0], btc_amount)
+                CnBtCoinTransaction(Price=asks[-1][0], Amount=btc_amount, TradeType='buy', TradeTime=datetime.datetime.now()).save()
         elif rule.will_sell():
             if btc_amount > 0:
-                okcoinSpot.trade('btc_cny', 'sell', bids[0], btc_amount)
-                CnBtCoinTransaction(Price=bids[0], Amount=btc_amount, TradeType='sell', TradeTime=datetime.datetime.now()).save()
+                print 'now sell'
+                okcoinSpot.trade('btc_cny', 'sell', bids[0][0], btc_amount)
+                CnBtCoinTransaction(Price=bids[0][0], Amount=btc_amount, TradeType='sell', TradeTime=datetime.datetime.now()).save()
 
 run()
     

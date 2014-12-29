@@ -5,7 +5,7 @@ class Rule:
     def set_context(self, context):
         pass
     
-    def get_max_amount(self):
+    def get_max_cny_amount(self):
         return 0.0
     
     def will_buy(self):

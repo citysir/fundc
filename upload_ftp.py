@@ -1,7 +1,7 @@
 #coding=utf-8
   
 from ftplib import FTP  
-import os, sys, string, datetime, time
+import os, sys, time
 import socket  
 
 class MYFTP:  
@@ -69,7 +69,7 @@ class MYFTP:
         if not os.path.isfile(localfile):  
             return  
         file_handler = open(localfile, 'rb')  
-        self.ftp.storbinary('STOR %s' %remotefile, file_handler)  
+        self.ftp.storbinary('STOR %s' % remotefile, file_handler)  
         file_handler.close()  
         debug_print('已传送: %s'  % localfile)  
 
@@ -119,4 +119,4 @@ def deal_error(e):
 if __name__ == '__main__':
     f = MYFTP('115.29.10.228', 'ftp_deploy', 'kVsHOX2q2jA3TlgBPQr9EYDfNV21Bz', '/', 7721)  
     f.login()  
-    f.upload_files(os.path.dirname(__file__), '/fundc/', excludes=['.git'])
+    f.upload_files(os.path.dirname(__file__), '/fundc/', excludes=['.git', '.settings', 'doc'])
