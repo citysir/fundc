@@ -37,3 +37,7 @@ class FundcDatabase:
     PASSWORD = 'myadmin3335688'
     PORT = 3306
     ROUTERNAME = 'fundc'
+
+class OkCoin:
+    ApiKey = '250e4df5-a023-4017-82c5-676625e2b54b'
+    SecretKey = 'FE7B5462F294969CAF05FC2007F1539C'

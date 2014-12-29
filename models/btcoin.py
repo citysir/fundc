@@ -12,3 +12,11 @@ class CnBtCoinMinutelyPrice(models.Model):
     Volumn = models.FloatField()
     PriceTime = models.DateTimeField()
     RecordTime = models.DateTimeField()
+    
+class CnBtCoinTransaction(models.Model):
+    class Meta:
+        db_table = "CnBtCoinTransaction"
+    Price = models.FloatField()
+    Amount = models.FloatField()
+    TradeType = models.IntegerField()
+    TradeTime = models.DateTimeField()

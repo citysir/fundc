@@ -11,7 +11,7 @@ class OKCoinSpot:
         self.__secretkey = secretkey
 
     #获取OKCOIN现货行情信息
-    def ticker(self,symbol = ''):
+    def ticker(self, symbol = 'btc_cny'):
         TICKER_RESOURCE = "/api/v1/ticker.do"
         params=''
         if symbol:
@@ -19,11 +19,9 @@ class OKCoinSpot:
         return httpGet(self.__url,TICKER_RESOURCE,params)
 
     #获取OKCOIN现货市场深度信息
-    def depth(self,symbol = ''):
+    def depth(self, symbol = 'btc_cny', size = 10):
         DEPTH_RESOURCE = "/api/v1/depth.do"
-        params=''
-        if symbol:
-            params = 'symbol=%(symbol)s' %{'symbol':symbol}
+        params = 'symbol=%s&size=%d' % (symbol, size)
         return httpGet(self.__url,DEPTH_RESOURCE,params) 
 
     #获取OKCOIN现货历史交易信息
@@ -48,7 +46,7 @@ class OKCoinSpot:
 ]
         '''
         TRADES_RESOURCE = "/api/v1/kline.do"
-        params = 'symbol=%s&type=%s&size=%d&since=%d&' % (symbol, type, size, since)
+        params = 'symbol=%s&type=%s&size=%d&since=%d' % (symbol, type, size, since)
         return httpGet(self.__url,TRADES_RESOURCE,params)
 
     #获取用户现货账户信息

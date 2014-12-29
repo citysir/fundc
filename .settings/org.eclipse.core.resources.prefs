@@ -1,6 +1,8 @@
 eclipse.preferences.version=1
+encoding//btcoin/btcoinautotrade.py=utf-8
 encoding//common/kmeans.py=utf-8
 encoding//common/okcoin/Client.py=utf-8
+encoding//common/okcoin/HttpMD5Util.py=utf-8
 encoding//common/okcoin/OkcoinFutureAPI.py=utf-8
 encoding//common/okcoin/OkcoinSpotAPI.py=utf-8
 encoding//common/sinapricegetter.py=utf-8
@@ -22,4 +24,5 @@ encoding//web/main/views.py=utf8
 encoding/config.py=utf-8
 encoding/constant.py=utf-8
 encoding/settings.py=utf-8
+encoding/upload_ftp.py=utf-8
 encoding/urls.py=utf-8

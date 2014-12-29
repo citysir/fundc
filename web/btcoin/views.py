@@ -45,19 +45,19 @@ def btchart(request):
 
 def _get_hours_desc(hours):
     if hours == 1:
-        return '1小时内'
+        return '1小时'
     elif hours == 3:
-        return '3小时内'
+        return '3小时'
     elif hours == 6:
-        return '6小时内'
+        return '6小时'
     elif hours == 12:
-        return '12小时内'
+        return '12小时'
     elif hours == 24:
-        return '1天内'
+        return '1天'
     elif hours == 72:
-        return '3天内'
+        return '3天'
     elif hours == 168:
-        return '7天内'
+        return '7天'
     else:
         raise Exception("不支持的 hours %s" % hours)
     
