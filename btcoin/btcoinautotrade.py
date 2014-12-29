@@ -21,7 +21,7 @@ def get_btc_amount(userinfo):
     '''
     {u'info': {u'funds': {u'freezed': {u'ltc': u'0', u'btc': u'0', u'cny': u'0'}, u'asset': {u'net': u'2000.85', u'total': u'2000.85'}, u'free': {u'ltc': u'0', u'btc': u'0.01', u'cny': u'1981.36'}}}, u'result': True}
     '''
-    return int(userinfo['info']['funds']['free']['btc'])
+    return float(userinfo['info']['funds']['free']['btc'])
 
 def run():
     okcoinRESTURL = 'www.okcoin.cn'   #请求注意：国际账号需要 修改为 www.okcoin.com  国内站账号需要修改为www.okcoin.cn
