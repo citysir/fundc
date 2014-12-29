@@ -18,5 +18,5 @@ class CnBtCoinTransaction(models.Model):
         db_table = "CnBtCoinTransaction"
     Price = models.FloatField()
     Amount = models.FloatField()
-    TradeType = models.IntegerField()
+    TradeType = models.CharField()
     TradeTime = models.DateTimeField()

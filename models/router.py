@@ -4,9 +4,9 @@ class Router:
     def db_for_read(self, model, **hints):
         from fundc.config import FundcDatabase
         from fundc.models.stock import StockBaseInfo, CnStockDailyPrice, UsStockDailyPrice, CnStockGroup, UsStockGroup
-        from fundc.models.btcoin import CnBtCoinMinutelyPrice
+        from fundc.models.btcoin import CnBtCoinMinutelyPrice, CnBtCoinTransaction
         if model in (StockBaseInfo, CnStockDailyPrice, UsStockDailyPrice, CnStockGroup, UsStockGroup,
-                     CnBtCoinMinutelyPrice):
+                     CnBtCoinMinutelyPrice, CnBtCoinTransaction):
             return FundcDatabase.ROUTERNAME
 
     def db_for_write(self, model, **hints):
