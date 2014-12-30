@@ -73,13 +73,13 @@ class MYFTP:
         file_handler.close()  
         debug_print('已传送: %s'  % localfile)  
 
-    def upload_files(self, localdir='./', remotedir = './', excludes=[]):  
+    def upload_files(self, localdir='./', remotedir = './', excludes=[], exclude_exts=tuple()):  
         if not os.path.isdir(localdir):  
             return  
         localnames = os.listdir(localdir)
         self.ftp.cwd(remotedir)
         for item in localnames:  
-            if item in excludes:
+            if item in excludes or item.endswith(exclude_exts):
                 continue
             src = os.path.join(localdir, item)
             if os.path.isdir(src):  
@@ -119,4 +119,4 @@ def deal_error(e):
 if __name__ == '__main__':
     f = MYFTP('115.29.10.228', 'ftp_deploy', 'kVsHOX2q2jA3TlgBPQr9EYDfNV21Bz', '/', 7721)  
     f.login()  
-    f.upload_files(os.path.dirname(__file__), '/fundc/', excludes=['.git', '.settings', 'doc'])
+    f.upload_files(os.path.dirname(__file__), '/fundc/', excludes=['.git', '.settings', 'doc'], exclude_exts=('.pyc',))

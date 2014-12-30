@@ -9,7 +9,7 @@ class BuySellRateRule(Rule):
 
 
     def get_max_cny_amount(self):
-        return 100.0
+        return 200.0
 
 
     def will_buy(self):

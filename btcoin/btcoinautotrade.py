@@ -31,9 +31,9 @@ def run():
     rule = BuySellRateRule()
     
     while True:
-        time.sleep(5)
+        time.sleep(2)
         
-        data = okcoinSpot.depth(size=10)
+        data = okcoinSpot.depth(size=5)
         bids = data['bids']
         asks = data['asks']
         
@@ -44,10 +44,10 @@ def run():
         
         print '--', datetime.datetime.now(), '--------------'
         print 'asks:'
-        for ask in asks[:10]:
+        for ask in asks:
             print '%2f\t%.3f' % (ask[0], ask[1])
         print 'bids:'
-        for bid in bids[:10]:
+        for bid in bids:
             print '%2f\t%.3f' % (bid[0], bid[1])
 
         rule.set_context(context)
@@ -57,14 +57,14 @@ def run():
         userinfo = okcoinSpot.userinfo()
         btc_amount = get_btc_amount(userinfo)
         if rule.will_buy():
-            if btc_amount == 0:
-                print 'now buy'
+            if btc_amount < 0.003: # <0.003就当做账户为0
                 btc_amount = rule.get_max_cny_amount() / asks[-1][0]
+                print 'now buy', asks[-1][0], btc_amount
                 okcoinSpot.trade('btc_cny', 'buy', asks[-1][0], btc_amount)
                 CnBtCoinTransaction(Price=asks[-1][0], Amount=btc_amount, TradeType='buy', TradeTime=datetime.datetime.now()).save()
         elif rule.will_sell():
-            if btc_amount > 0:
-                print 'now sell'
+            if btc_amount >= 0.003: # >=0.003才认为账户有btc
+                print 'now sell', bids[0][0], btc_amount
                 okcoinSpot.trade('btc_cny', 'sell', bids[0][0], btc_amount)
                 CnBtCoinTransaction(Price=bids[0][0], Amount=btc_amount, TradeType='sell', TradeTime=datetime.datetime.now()).save()
 
