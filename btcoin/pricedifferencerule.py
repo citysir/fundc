@@ -14,7 +14,7 @@ class PriceDifferenceRule(Rule):
         bids = self.context['bids']
         asks = self.context['asks']
         # 买一和卖一价差很大的情况下购买
-        return (asks[-1][0] - bids[0][0] > 0.46)
+        return (asks[-1][0] - bids[0][0] > 0.45)
 
     def get_buy_price(self):
         bids = self.context['bids']
