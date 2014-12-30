@@ -11,7 +11,12 @@ class Rule:
     def will_buy(self):
         return False
     
+    def get_buy_price(self):
+        return 0
+    
     def will_sell(self):
         return False
     
+    def get_sell_price(self):
+        return 10000
     
