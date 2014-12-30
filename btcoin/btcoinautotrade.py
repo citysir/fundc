@@ -15,7 +15,7 @@ def cancel_orders(okcoinSpot):
         if order['status'] in (0, 1):
             cancelresult = try_cancelOrder(okcoinSpot, 'btc_cny', order['order_id'])
             if cancelresult['result']:
-                print 'canceled order', order['order_id']
+                print 'cancelled order', order['order_id']
 
 def get_btc_amount(userinfo):
     '''
@@ -57,14 +57,14 @@ def run():
         userinfo = try_userinfo(okcoinSpot)
         btc_amount = get_btc_amount(userinfo)
         if rule.will_buy():
-            if btc_amount < 0.03: # <0.03就当做账户为0
+            if btc_amount < 0.01: # btc最小交易单位为0.01
                 buy_price = rule.get_buy_price()
                 btc_amount = rule.get_max_cny_amount() / buy_price
                 print 'now buy', buy_price, btc_amount
                 try_trade(okcoinSpot, 'btc_cny', 'buy', buy_price, btc_amount)
                 CnBtCoinTransaction(Price=buy_price, Amount=btc_amount, TradeType='buy', TradeTime=datetime.datetime.now()).save()
         elif rule.will_sell():
-            if btc_amount >= 0.03: # >=0.03才认为账户有btc
+            if btc_amount >= 0.01: # btc最小交易单位为0.01
                 sell_price = rule.get_sell_price()
                 print 'now sell', sell_price, btc_amount
                 try_trade(okcoinSpot, 'btc_cny', 'sell', sell_price, btc_amount)

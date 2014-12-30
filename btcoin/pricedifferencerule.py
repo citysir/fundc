@@ -8,13 +8,13 @@ class PriceDifferenceRule(Rule):
         self.context = context
 
     def get_max_cny_amount(self):
-        return 200.0
+        return 1000.0
 
     def will_buy(self):
         bids = self.context['bids']
         asks = self.context['asks']
         # 买一和卖一价差很大的情况下购买
-        return (asks[-1][0] - bids[0][0] > 0.5)
+        return (asks[-1][0] - bids[0][0] > 0.46)
 
     def get_buy_price(self):
         bids = self.context['bids']
