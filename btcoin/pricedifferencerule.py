@@ -4,17 +4,20 @@ from fundc.btcoin.rule import Rule
 
 class PriceDifferenceRule(Rule):
 
+    def __init__(self):
+        Rule.__init__(self)
+
     def set_context(self, context):
         self.context = context
 
     def get_max_cny_amount(self):
-        return 1000.0
+        return 500.0
 
     def will_buy(self):
         bids = self.context['bids']
         asks = self.context['asks']
         # 买一和卖一价差很大的情况下购买
-        return (asks[-1][0] - bids[0][0] > 0.45)
+        return (asks[-1][0] - bids[0][0] >= 0.42)
 
     def get_buy_price(self):
         bids = self.context['bids']
@@ -23,7 +26,7 @@ class PriceDifferenceRule(Rule):
     def will_sell(self):
         bids = self.context['bids']
         asks = self.context['asks']
-        return (asks[-1][0] - bids[0][0] < 0.2)
+        return (bids[0][0] - self.last_buy_price >= 0.02 or asks[-1][0] - bids[0][0] <= 0.14)
 
     def get_sell_price(self):
         bids = self.context['bids']

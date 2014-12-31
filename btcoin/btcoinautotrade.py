@@ -31,7 +31,7 @@ def run():
     rule = PriceDifferenceRule()
     
     while True:
-        time.sleep(1)
+        time.sleep(0.5)
 
         data = try_depth(okcoinSpot, size=5)
         bids = data['bids']
@@ -62,7 +62,9 @@ def run():
                 btc_amount = rule.get_max_cny_amount() / buy_price
                 print 'now buy', buy_price, btc_amount
                 try_trade(okcoinSpot, 'btc_cny', 'buy', buy_price, btc_amount)
+                rule.set_last_buy_price(buy_price)
                 CnBtCoinTransaction(Price=buy_price, Amount=btc_amount, TradeType='buy', TradeTime=datetime.datetime.now()).save()
+                time.sleep(0.5)
         elif rule.will_sell():
             if btc_amount >= 0.01: # btc最小交易单位为0.01
                 sell_price = rule.get_sell_price()

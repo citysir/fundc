@@ -4,6 +4,9 @@ from fundc.btcoin.rule import Rule
 
 class BuySellRateRule(Rule):
     
+    def __init__(self):
+        Rule.__init__(self)
+    
     def set_context(self, context):
         self.context = context
 
