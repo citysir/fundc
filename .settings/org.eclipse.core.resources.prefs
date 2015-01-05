@@ -1,7 +1,11 @@
 eclipse.preferences.version=1
-encoding//btcoin/btcoinautotrade.py=utf-8
-encoding//btcoin/buysellraterule.py=utf-8
-encoding//btcoin/pricedifferencerule.py=utf-8
+encoding//btcoin/buybyvolumn.py=utf-8
+encoding//btcoin/buysellratetrade.py=utf-8
+encoding//btcoin/klinedeviationtrade.py=utf-8
+encoding//btcoin/pricedifferencetrade.py=utf-8
+encoding//btcoin/recentdeviationtrade.py=utf-8
+encoding//btcoin/reselltrade.py=utf-8
+encoding//btcoin/util.py=utf-8
 encoding//common/kmeans.py=utf-8
 encoding//common/okcoin/Client.py=utf-8
 encoding//common/okcoin/HttpMD5Util.py=utf-8

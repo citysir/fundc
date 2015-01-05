@@ -19,19 +19,17 @@ class OKCoinSpot:
         return httpGet(self.__url,TICKER_RESOURCE,params)
 
     #获取OKCOIN现货市场深度信息
-    def depth(self, symbol = 'btc_cny', size = 10):
+    def depth(self, symbol='btc_cny', size=10):
         DEPTH_RESOURCE = "/api/v1/depth.do"
         params = 'symbol=%s&size=%d' % (symbol, size)
         return httpGet(self.__url,DEPTH_RESOURCE,params) 
 
     #获取OKCOIN现货历史交易信息
-    def trades(self,symbol = ''):
+    def trades(self, symbol='btc_cny', since=-60):
         TRADES_RESOURCE = "/api/v1/trades.do"
-        params=''
-        if symbol:
-            params = 'symbol=%(symbol)s' %{'symbol':symbol}
+        params = 'symbol=%s&since=%d' % (symbol, since)
         return httpGet(self.__url,TRADES_RESOURCE,params)
-    
+
     #获取比特币或莱特币的K线数据
     def kline(self, symbol = 'btc_cny', type = '1min', size = 60, since = 1417536000000):
         '''
